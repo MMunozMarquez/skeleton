@@ -15,8 +15,10 @@ shinyUI(pageWithSidebar(
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
     a('Menú Principal', href='http://knuth.uca.es/shiny/'),
-       selectInput('action', 'Acción', c('Cargar datos', 'Reiniciar')),
+       selectInput('action', 'Acción', c('Cargar datos', 'Borrar fila', 'Borrar columna', 'Reiniciar')),
        conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))), 
+       conditionalPanel(condition = "input.action == 'Borrar fila'", numericInput('row.del', 'Fila a borrar:', value = '')),
+       conditionalPanel(condition = "input.action == 'Borrar columna'", numericInput('col.del', 'Columna a borrar:', value = '')),
     actionButton('goButton', 'Hacer')
   ),
 
