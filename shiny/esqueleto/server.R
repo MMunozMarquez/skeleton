@@ -15,13 +15,23 @@ shinyServer(function(input, output) {
   # renderPlot muestra la gráfica y la convierte en reactiva, es decir,
   dataInput <- reactive({
       input$goButton
-      isolate(if (input$action == 'Reiniciar') data <<- data.frame())
-      isolate(if (input$action == 'Cargar datos' && !is.null(input$input.file$datapath)) isolate(data <<- read.csv(input$input.file$datapath)))
+      action <- isolate(input$action)
+      if (action == 'Reiniciar') data <<- data.frame()
+      if (action == 'Cargar datos' && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath))
+      if (action == 'Añadir fila' && ncol(data) > 0) {
+          data <<- data[nrow(data) + 1, rep(NA, ncol(data))]
+      }
+      if (action == 'Añadir columna' && isolate(input$col.name) != '') {
+          .col <- ifelse(nrow(data) > 0, rep(NA, nrow(data)), numeric(0))
+          .data <- data.frame(.col)
+          names(.data) <- isolate(input$col.name)
+          data <<- cbind(data, .data)
+      }
       isolate(if (input$action == 'Borrar fila') {
-        if (input$row.del > 0 && input$row.del <= nrow(data)) data <<- data[-input$row.del,]
+        if (input$row.del > 0 && input$row.del <= nrow(data)) data[input$row.del,] <<- NULL
       })
       isolate(if (input$action == 'Borrar columna') {
-        if (input$col.del > 0 && input$col.del <= nrow(data)) data <<- data[,-input$col.del]
+        if (input$col.del > 0 && input$col.del <= nrow(data)) data[,input$col.del] <<- NULL
       })
       data
   })
@@ -45,5 +55,15 @@ shinyServer(function(input, output) {
          summary(data)
      }
   })
-                                
+
+# Download
+output$downloadData <- downloadHandler(
+    filename = function() {
+        paste('data-', Sys.Date(), '.csv', sep='')
+    },
+    content = function(file) {
+        write.csv(data, file)
+    }
+    )
+                          
 })
