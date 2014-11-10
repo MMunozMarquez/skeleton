@@ -15,6 +15,7 @@ shinyServer(function(input, output) {
   # renderPlot muestra la gráfica y la convierte en reactiva, es decir,
   dataInput <- reactive({
       input$goButton
+      isolate(if (input$action == 'Reiniciar') data <<- data.frame())
       isolate(if (input$action == 'Cargar datos' && !is.null(input$input.file$datapath)) isolate(data <<- read.csv(input$input.file$datapath)))
       isolate(if (input$action == 'Borrar fila') {
         if (input$row.del > 0 && input$row.del <= nrow(data)) data <<- data[-input$row.del,]
@@ -38,9 +39,11 @@ shinyServer(function(input, output) {
   })
   
 # Output solution
-  output$Solucion <- renderTable({
+  output$Solution <- renderTable({
      data <- dataInput()
-     summary(data)
+     if (nrow(data) > 0) {
+         summary(data)
+     }
   })
                                 
 })

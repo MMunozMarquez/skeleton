@@ -34,14 +34,14 @@ shinyUI(pageWithSidebar(
                    p("To start input values for parameters, select an action, and press \"Hacer\". Select the tab to show. You can enter new values and the results will be updated automatically."),
                    p("Developed using shiny by", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "under GNU-GPL licence inside ", a("R-UCA Project", href="http://knuth.uca.es/R"), ".")
                    ),
-          tabPanel('Gráfico',
-                   plotOutput("Plot")
-          ),
           tabPanel('Datos',
                    tableOutput('Data')
           ),
+          tabPanel('Gráfico',
+                   plotOutput("Plot")
+          ),
           tabPanel('Solución',
-                   tableOutput('Solucion')
+                   tableOutput('Solution')
           )
        )      
     )
