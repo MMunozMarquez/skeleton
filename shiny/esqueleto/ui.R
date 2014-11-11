@@ -1,4 +1,4 @@
-# Esqueleto de aplicación con entrada, salida y modificación de data.frame
+# Esqueleto de aplicación con creación, edición, carga y descarga de data.frame
 # Autor: Manuel Muñoz Márquez (manuel.munoz@uca.es)
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
@@ -10,7 +10,7 @@ library(shiny)
 shinyUI(pageWithSidebar(
 
   # Título de la aplicación
-  headerPanel("Esqueleto de aplicación con entrada, salida y modificación de data.frame"),
+  headerPanel("Esqueleto de aplicación con creación, edición, carga y descarga de data.frame"),
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
@@ -18,7 +18,7 @@ shinyUI(pageWithSidebar(
     selectInput('action', 'Acción', c('Cargar datos', 'Añadir fila', 'Añadir columna', 'Borrar fila', 'Borrar columna', 'Reiniciar')),
     conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))), 
     conditionalPanel(condition = "input.action == 'Añadir columna'", textInput('col.name', 'Nombre:', value = '')),
-    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico'))),
+#    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico'))),
     conditionalPanel(condition = "input.action == 'Borrar fila'", numericInput('row.del', 'Fila a borrar:', value = '')),
     conditionalPanel(condition = "input.action == 'Borrar columna'", numericInput('col.del', 'Columna a borrar:', value = '')),
     actionButton('goButton', 'Hacer'),
