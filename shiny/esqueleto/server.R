@@ -1,4 +1,4 @@
-# Esqueleto de aplicación con entrada, salida y modificación de data.frame
+# Esqueleto de aplicación con creación, edición, carga y descarga de data.frame
 # Autor: Manuel Muñoz Márquez (manuel.munoz@uca.es)
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
@@ -19,19 +19,18 @@ shinyServer(function(input, output) {
       if (action == 'Reiniciar') data <<- data.frame()
       if (action == 'Cargar datos' && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath))
       if (action == 'Añadir fila' && ncol(data) > 0) {
-          data <<- data[nrow(data) + 1, rep(NA, ncol(data))]
+          if (ncol(data) > 0) data[nrow(data)+1,] <<- rep(NA, ncol(data))
       }
       if (action == 'Añadir columna' && isolate(input$col.name) != '') {
-          .col <- ifelse(nrow(data) > 0, rep(NA, nrow(data)), numeric(0))
-          .data <- data.frame(.col)
-          names(.data) <- isolate(input$col.name)
+          if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
+          colnames(.data) <- isolate(eval(input$col.name))
           data <<- cbind(data, .data)
       }
       isolate(if (input$action == 'Borrar fila') {
         if (input$row.del > 0 && input$row.del <= nrow(data)) data[input$row.del,] <<- NULL
       })
       isolate(if (input$action == 'Borrar columna') {
-        if (input$col.del > 0 && input$col.del <= nrow(data)) data[,input$col.del] <<- NULL
+        if (input$col.del > 0 && input$col.del <= ncol(data)) data[,input$col.del] <<- NULL
       })
       data
   })
