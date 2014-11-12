@@ -23,11 +23,11 @@ shinyServer(function(input, output) {
       }
       if (action == 'Añadir columna' && isolate(input$col.name) != '') {
           if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
-          colnames(.data) <- isolate(eval(input$col.name))
+          colnames(.data) <- isolate(input$col.name)
           data <<- cbind(data, .data)
       }
       isolate(if (input$action == 'Borrar fila') {
-        if (input$row.del > 0 && input$row.del <= nrow(data)) data[input$row.del,] <<- NULL
+        if (input$row.del > 0 && input$row.del <= nrow(data)) data <<- data[-input$row.del,]
       })
       isolate(if (input$action == 'Borrar columna') {
         if (input$col.del > 0 && input$col.del <= ncol(data)) data[,input$col.del] <<- NULL
