@@ -18,10 +18,11 @@ shinyServer(function(input, output) {
       action <- isolate(input$action)
       col.number <- isolate(ifelse(is.numeric(input$col.number), round(input$col.number), 0))
       new.name <- isolate(input$new.name)
+      new.value <- isolate(input$new.value)
       row.number <- isolate(ifelse(is.numeric(input$row.number), round(input$row.number), 0))
-      if (action == 'Añadir columna' && input$new.name != '') {
+      if (action == 'Añadir columna' && new.name != '') {
           if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
-          colnames(.data) <- input$new.name
+          colnames(.data) <- new.name
           data <<- cbind(data, .data)
       }
       if (action == 'Añadir fila' && ncol(data) > 0) {
@@ -30,6 +31,19 @@ shinyServer(function(input, output) {
       if (action == 'Borrar columna' && col.number > 0 && col.number <= ncol(data)) data[,col.number] <<- NULL
       if (action == 'Borrar fila' && row.number > 0 && row.number <= nrow(data)) data <<- data[-row.number,]
       if (action == 'Cargar datos' && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath))
+      if (action == 'Editar casilla' && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
+          if (is.numeric(data[, col.number])) {
+              new.value <- as.numeric(new.value)
+              if (!is.na(new.value)) data[row.number, col.number] <<- new.value
+          } else {
+              if (is.factor(data[, col.number])) {
+                  .factor <- data[, col.number]
+                  .factor <- factor(.factor, levels = unique(c(levels(.factor), new.value)))
+                  .factor[row.number] <- new.value
+                  data[, col.number] <<- .factor
+              } else data[row.number, col.number] <<- new.value
+          }
+      }
       if (action == 'Reiniciar') data <<- data.frame()
       if (action == 'Renombrar columna' && new.name != '' && col.number > 0 && col.number <= ncol(data)) colnames(data)[col.number] <<- new.name
       if (action == 'Renombrar fila' && new.name != '' && row.number > 0 && row.number <= nrow(data)) rownames(data)[row.number] <<- new.name
