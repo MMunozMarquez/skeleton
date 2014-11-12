@@ -15,14 +15,12 @@ shinyUI(pageWithSidebar(
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
     a('Menú Principal', href='http://knuth.uca.es/shiny/'),
-    selectInput('action', 'Acción', c('Añadir columna', 'Añadir fila', 'Borrar columna', 'Borrar fila', 'Cargar datos', 'Renombrar columna', 'Renombrar fila', 'Reiniciar'), selected = 5),
-    conditionalPanel(condition = "input.action == 'Añadir columna'", textInput('col.name', 'Nombre:', value = '')),
+    selectInput('action', 'Acción', c('Añadir columna', 'Añadir fila', 'Borrar columna', 'Borrar fila', 'Cargar datos', 'Reiniciar', 'Renombrar columna', 'Renombrar fila'), selected = 5),
 #    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico'))),
-    conditionalPanel(condition = "input.action == 'Borrar columna'", numericInput('col.del', 'Columna a borrar:', value = '')),
-    conditionalPanel(condition = "input.action == 'Borrar fila'", numericInput('row.del', 'Fila a borrar:', value = '')),
-    conditionalPanel(condition = "input.action == 'Renombrar columna'", numericInput('col.mv', 'Columna a renombrar:', value = '')),
-    conditionalPanel(condition = "input.action == 'Renombrar fila'", numericInput('row.mv', 'Fila a renombrar:', value = '')),
-    conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))), 
+    conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
+    conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
+    conditionalPanel(condition = "(input.action == 'Añadir columna') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')", textInput('new.name', 'Nombre:', value = '')),
+    conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))),
     actionButton('goButton', 'Hacer'),
     hr(),
     downloadButton('downloadData', 'Descargar datos')
