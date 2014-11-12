@@ -14,12 +14,12 @@ shinyUI(pageWithSidebar(
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
-    a('Menú Principal', href='http://knuth.uca.es/shiny/'),
-    selectInput('action', 'Acción', c('Añadir columna', 'Añadir fila', 'Borrar columna', 'Borrar fila', 'Cargar datos', 'Reiniciar', 'Renombrar columna', 'Renombrar fila'), selected = 5),
+    selectInput('action', 'Acción', choices = c('Añadir columna', 'Añadir fila', 'Borrar columna', 'Borrar fila', 'Cargar datos', 'Editar casilla', 'Reiniciar', 'Renombrar columna', 'Renombrar fila'), selected = 'Cargar datos'),
 #    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico'))),
-    conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
-    conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
+    conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Editar casilla') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
+    conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Editar casilla') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Añadir columna') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')", textInput('new.name', 'Nombre:', value = '')),
+    conditionalPanel(condition = "input.action == 'Editar casilla'", textInput('new.value', 'Valor:', value = '')),
     conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))),
     actionButton('goButton', 'Hacer'),
     hr(),
@@ -36,7 +36,9 @@ shinyUI(pageWithSidebar(
                    hr(),
                    p("This application allows load a csv data file. It has been developed as starting point for new applications."),
                    p("To start input values for parameters, select an action, and press \"Hacer\". Select the tab to show. You can enter new values and the results will be updated automatically."),
-                   p("Developed using shiny by", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "under GNU-GPL licence inside ", a("R-UCA Project", href="http://knuth.uca.es/R"), ".")
+                   p("Developed using shiny by", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "under GNU-GPL licence inside ", a("R-UCA Project", href="http://knuth.uca.es/R"), "."),
+                   hr(),
+                   a('Menú principal de ejemplos', href='http://knuth.uca.es/shiny/')
                    ),
           tabPanel('Datos',
                    tableOutput('Data')
