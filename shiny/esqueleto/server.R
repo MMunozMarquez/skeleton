@@ -19,10 +19,16 @@ shinyServer(function(input, output) {
       col.number <- isolate(ifelse(is.numeric(input$col.number), round(input$col.number), 0))
       new.name <- isolate(input$new.name)
       new.value <- isolate(input$new.value)
+      col.type <- isolate(input$col.type)
       row.number <- isolate(ifelse(is.numeric(input$row.number), round(input$row.number), 0))
       if (action == 'Añadir columna' && new.name != '') {
           if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
           colnames(.data) <- new.name
+          .data[,1] <- switch(col.type,
+              Numérico = as.numeric(.data[,1]),
+              Factor = as.factor(.data[,1]),
+              Carácter = as.character(.data[,1])
+          )
           data <<- cbind(data, .data)
       }
       if (action == 'Añadir fila' && ncol(data) > 0) {
