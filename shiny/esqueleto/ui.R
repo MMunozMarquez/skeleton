@@ -15,7 +15,7 @@ shinyUI(pageWithSidebar(
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
     selectInput('action', 'Acción', choices = c('Añadir columna', 'Añadir fila', 'Borrar columna', 'Borrar fila', 'Cargar datos', 'Editar casilla', 'Reiniciar', 'Renombrar columna', 'Renombrar fila'), selected = 'Cargar datos'),
-#    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico'))),
+    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico', 'Factor', 'Carácter'))),
     conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Editar casilla') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Editar casilla') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Añadir columna') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')", textInput('new.name', 'Nombre:', value = '')),
