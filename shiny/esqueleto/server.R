@@ -37,6 +37,7 @@ shinyServer(function(input, output) {
       if (action == 'Borrar columna' && col.number > 0 && col.number <= ncol(data)) data[,col.number] <<- NULL
       if (action == 'Borrar fila' && row.number > 0 && row.number <= nrow(data)) data <<- data[-row.number,]
       if (action == 'Cargar datos' && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath))
+      if (action == 'Cargar ejemplos') data <<- read.csv(isolate(input$example.file))
       if (action == 'Editar casilla' && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
           if (is.numeric(data[, col.number])) {
               new.value <- as.numeric(new.value)
@@ -82,7 +83,7 @@ output$downloadData <- downloadHandler(
         paste('data-', Sys.Date(), '.csv', sep='')
     },
     content = function(file) {
-        write.csv(data, file)
+        write.csv(data, file = file, row.names = FALSE)
     }
     )
                           
