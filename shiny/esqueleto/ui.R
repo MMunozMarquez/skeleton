@@ -4,18 +4,19 @@
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
 #
 
-actions <- c(add_column = 'Añadir columna', add_row = 'Añadir fila', drop_column = 'Borrar columna', drop_row = 'Borrar fila', edit_cell = 'Editar casilla', load_data = 'Cargar datos', load_exaple = 'Cargar ejemplos', rename_column = 'Renombrar columna', rename_row = 'Renombrar fila', reset = 'Reiniciar')
-
+# Initialize data
+source('common.R')
+    
 # Definición de la interfaz para la recogida de datos
 shinyUI(pageWithSidebar(
 
   # Título de la aplicación
-  headerPanel("Esqueleto de aplicación con creación, edición, carga y descarga de data.frame"),
+  headerPanel(text['title']),
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
     selectInput('action', 'Acción', choices = paste(actions), selected = actions['load_data']),
-    conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico', 'Factor', 'Carácter'))),
+    conditionalPanel(condition = paste0("input.action =='", actions['add_column'],"'"), selectInput('col.type', 'Tipo:', c('Numérico', 'Factor', 'Carácter'))),
     conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Editar casilla') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Editar casilla') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Añadir columna') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')", textInput('new.name', 'Nombre:', value = '')),

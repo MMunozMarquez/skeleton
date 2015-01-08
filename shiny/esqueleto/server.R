@@ -5,6 +5,7 @@
 #
 
 # Initialize data
+source('common.R')
 data <- data.frame()
 
 # Define la lógica para el cálculo de los resultados
@@ -20,7 +21,7 @@ shinyServer(function(input, output) {
       new.value <- isolate(input$new.value)
       col.type <- isolate(input$col.type)
       row.number <- isolate(ifelse(is.numeric(input$row.number), round(input$row.number), 0))
-      if (action == 'Añadir columna' && new.name != '') {
+      if (action == actions['add_column'] && new.name != '') {
           if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
           colnames(.data) <- new.name
           .data[,1] <- switch(col.type,
