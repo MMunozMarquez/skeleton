@@ -15,34 +15,34 @@ shinyUI(pageWithSidebar(
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
-    selectInput('action', 'Acción', choices = paste(actions), selected = actions['load_data']),
-    conditionalPanel(condition = paste0("input.action =='", actions['add_column'],"'"), selectInput('col.type', 'Tipo:', c('Numérico', 'Factor', 'Carácter'))),
+    selectInput('action', text['action'], choices = paste(actions), selected = actions['load_data']),
+    conditionalPanel(condition = paste0("input.action =='", actions['add_column'],"'"), selectInput('col.type', text['type'], c(text['numeric'], text['factor'], text['character']))),
     conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Editar casilla') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Editar casilla') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
-    conditionalPanel(condition = "(input.action == 'Añadir columna') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')", textInput('new.name', 'Nombre:', value = '')),
+    conditionalPanel(condition = paste0("(input.action == '", actions['add_column'], "') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')"), textInput('new.name', text['name'], value = '')),
     conditionalPanel(condition = "input.action == 'Editar casilla'", textInput('new.value', 'Valor:', value = '')),
     conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))),
     conditionalPanel(condition = "input.action == 'Cargar ejemplos'", selectInput('example.file', 'Ejemplo:', c('ejemplo1.csv', 'ejemplo2.csv'))),
-    actionButton('goButton', 'Hacer'),
+    actionButton('goButton', text['go']),
     hr(),
-    downloadButton('downloadData', 'Descargar datos')
+    downloadButton('downloadData', text['download_data'])
   ),
 
   # Muestra los resultados
   mainPanel(
       tabsetPanel(
-          tabPanel('Información',
+          tabPanel(text['information'],
                    p("Aplicación que permite la carga de un fichero csv con datos. Ha sido desarrollada para ser rehusada como esqueleto para nuevas aplicaciones."),
                    p("Para comenzar introduzca los valores de los parámetros, seleccione una acción y pulse en el botón \"Hacer\". Seleccione la pestaña que desea visualizar. Puede introducir nuevos valores y se actualizarán los resultados automáticamente."),
                    p("Realizado con shiny por", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "bajo licencia GNU-GPL como parte del", a("Proyecto R-UCA", href="http://knuth.uca.es/R"), "."),
+                   p(a('Menú principal de ejemplos', href='http://knuth.uca.es/shiny/')),
                    hr(),
                    p("This application allows load a csv data file. It has been developed as starting point for new applications."),
                    p("To start input values for parameters, select an action, and press \"Hacer\". Select the tab to show. You can enter new values and the results will be updated automatically."),
                    p("Developed using shiny by", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "under GNU-GPL licence inside ", a("R-UCA Project", href="http://knuth.uca.es/R"), "."),
-                   hr(),
-                   a('Menú principal de ejemplos', href='http://knuth.uca.es/shiny/')
+                   p(a('Main examples menu', href='http://knuth.uca.es/shiny/'))
                    ),
-          tabPanel('Datos',
+          tabPanel(text['data'],
                    tableOutput('Data')
           ),
           tabPanel('Gráfico',
