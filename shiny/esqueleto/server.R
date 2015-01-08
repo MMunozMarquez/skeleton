@@ -25,13 +25,15 @@ shinyServer(function(input, output) {
           if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
           colnames(.data) <- new.name
           .data[,1] <- switch(col.type,
-              Numérico = as.numeric(.data[,1]),
+              Numérico = ,
+              Numeric = as.numeric(.data[,1]),
               Factor = as.factor(.data[,1]),
-              Carácter = as.character(.data[,1])
+              Carácter = ,
+              Character = as.character(.data[,1])
           )
           data <<- cbind(data, .data)
       }
-      if (action == 'Añadir fila' && ncol(data) > 0) {
+      if (action == actions['add_row'] && ncol(data) > 0) {
           if (ncol(data) > 0) data[nrow(data)+1,] <<- rep(NA, ncol(data))
       }
       if (action == 'Borrar columna' && col.number > 0 && col.number <= ncol(data)) data[,col.number] <<- NULL
@@ -51,7 +53,7 @@ shinyServer(function(input, output) {
               } else data[row.number, col.number] <<- new.value
           }
       }
-      if (action == 'Reiniciar') data <<- data.frame()
+      if (action == actions['reset']) data <<- data.frame()
       if (action == 'Renombrar columna' && new.name != '' && col.number > 0 && col.number <= ncol(data)) colnames(data)[col.number] <<- new.name
       if (action == 'Renombrar fila' && new.name != '' && row.number > 0 && row.number <= nrow(data)) rownames(data)[row.number] <<- new.name
       data
