@@ -3,7 +3,6 @@
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
 #
-library(shiny)
 
 # Initialize data
 data <- data.frame()

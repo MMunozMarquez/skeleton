@@ -3,8 +3,8 @@
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
 #
-library(shiny)
-#library(orloca)
+
+actions <- c(add_column = 'Añadir columna', add_row = 'Añadir fila', drop_column = 'Borrar columna', drop_row = 'Borrar fila', edit_cell = 'Editar casilla', load_data = 'Cargar datos', load_exaple = 'Cargar ejemplos', rename_column = 'Renombrar columna', rename_row = 'Renombrar fila', reset = 'Reiniciar')
 
 # Definición de la interfaz para la recogida de datos
 shinyUI(pageWithSidebar(
@@ -14,7 +14,7 @@ shinyUI(pageWithSidebar(
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
-    selectInput('action', 'Acción', choices = c('Añadir columna', 'Añadir fila', 'Borrar columna', 'Borrar fila', 'Cargar datos', 'Cargar ejemplos', 'Editar casilla', 'Reiniciar', 'Renombrar columna', 'Renombrar fila'), selected = 'Cargar datos'),
+    selectInput('action', 'Acción', choices = paste(actions), selected = actions['load_data']),
     conditionalPanel(condition = "input.action == 'Añadir columna'", selectInput('col.type', 'Tipo:', c('Numérico', 'Factor', 'Carácter'))),
     conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Editar casilla') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
     conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Editar casilla') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
