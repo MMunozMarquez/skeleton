@@ -26,22 +26,18 @@ shinyUI(pageWithSidebar(
     conditionalPanel(condition = paste0("input.action == '", actions['load_example'], "'"), selectInput('example.file', text['example'], c('ejemplo1.csv', 'ejemplo2.csv'))),
     actionButton('goButton', text['go']),
     hr(),
-    downloadButton('downloadData', text['download_data'])
+    downloadButton('downloadData', text['download_data']),
+    hr(),
+    p(a(text['main_menu'], href='http://knuth.uca.es/shiny/')),
+    p(a(text['other_language'], href=text['other_url']))
   ),
-
   # Muestra los resultados
   mainPanel(
       tabsetPanel(
-          tabPanel(text['information'],
-                   p("Aplicación que permite la carga de un fichero csv con datos. Ha sido desarrollada para ser rehusada como esqueleto para nuevas aplicaciones."),
-                   p("Para comenzar introduzca los valores de los parámetros, seleccione una acción y pulse en el botón \"Hacer\". Seleccione la pestaña que desea visualizar. Puede introducir nuevos valores y se actualizarán los resultados automáticamente."),
-                   p("Realizado con shiny por", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "bajo licencia GNU-GPL como parte del", a("Proyecto R-UCA", href="http://knuth.uca.es/R"), "."),
-                   p(a('Menú principal de ejemplos', href='http://knuth.uca.es/shiny/')),
-                   hr(),
-                   p("This application allows load a csv data file. It has been developed as starting point for new applications."),
-                   p("To start input values for parameters, select an action, and press \"Hacer\". Select the tab to show. You can enter new values and the results will be updated automatically."),
-                   p("Developed using shiny by", a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), "under GNU-GPL licence inside ", a("R-UCA Project", href="http://knuth.uca.es/R"), "."),
-                   p(a('Main examples menu', href='http://knuth.uca.es/shiny/'))
+          tabPanel(text['information'], 
+                   p(information[1]),
+                   p(information[2]),
+                   p(information[3], a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), information[4], a(information[5], href="http://knuth.uca.es/R"), ".")
                    ),
           tabPanel(text['data'],
                    tableOutput('Data')
