@@ -17,12 +17,12 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     selectInput('action', text['action'], choices = paste(actions), selected = actions['load_data']),
     conditionalPanel(condition = paste0("input.action =='", actions['add_column'],"'"), selectInput('col.type', text['type'], c(text['numeric'], text['factor'], text['character']))),
-    conditionalPanel(condition = "(input.action == 'Borrar fila') || (input.action == 'Editar casilla') || (input.action == 'Renombrar fila')", numericInput('row.number', 'Fila:', value = 0)),
-    conditionalPanel(condition = "(input.action == 'Borrar columna') || (input.action == 'Editar casilla') || (input.action == 'Renombrar columna')", numericInput('col.number', 'Columna:', value = 0)),
+    conditionalPanel(condition = paste0("(input.action == '", actions['drop_row'], "') || (input.action == '", actions['edit_cell'], "') || (input.action == '", actions['rename_row'], "')"), numericInput('row.number', text['row'], value = 0)),
+    conditionalPanel(condition = paste0("(input.action == '", actions['drop_column'], "') || (input.action == '", actions['edit_cell'], "') || (input.action == '", actions['rename_column'], "')"), numericInput('col.number', text['column'], value = 0)),
     conditionalPanel(condition = paste0("(input.action == '", actions['add_column'], "') || (input.action == 'Renombrar fila') || (input.action == 'Renombrar columna')"), textInput('new.name', text['name'], value = '')),
     conditionalPanel(condition = "input.action == 'Editar casilla'", textInput('new.value', 'Valor:', value = '')),
     conditionalPanel(condition = "input.action == 'Cargar datos'", fileInput(inputId = "input.file", label = "Fichero:", accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))),
-    conditionalPanel(condition = "input.action == 'Cargar ejemplos'", selectInput('example.file', 'Ejemplo:', c('ejemplo1.csv', 'ejemplo2.csv'))),
+    conditionalPanel(condition = paste0("input.action == '", actions['load_example'], "'"), selectInput('example.file', 'Ejemplo:', c('ejemplo1.csv', 'ejemplo2.csv'))),
     actionButton('goButton', text['go']),
     hr(),
     downloadButton('downloadData', text['download_data'])

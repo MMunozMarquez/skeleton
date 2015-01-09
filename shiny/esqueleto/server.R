@@ -36,11 +36,11 @@ shinyServer(function(input, output) {
       if (action == actions['add_row'] && ncol(data) > 0) {
           if (ncol(data) > 0) data[nrow(data)+1,] <<- rep(NA, ncol(data))
       }
-      if (action == 'Borrar columna' && col.number > 0 && col.number <= ncol(data)) data[,col.number] <<- NULL
-      if (action == 'Borrar fila' && row.number > 0 && row.number <= nrow(data)) data <<- data[-row.number,]
-      if (action == 'Cargar datos' && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath))
-      if (action == 'Cargar ejemplos') data <<- read.csv(isolate(input$example.file))
-      if (action == 'Editar casilla' && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
+      if (action == actions['drop_column'] && col.number > 0 && col.number <= ncol(data)) data[,col.number] <<- NULL
+      if (action == actions['drop_row'] && row.number > 0 && row.number <= nrow(data)) data <<- data[-row.number,]
+      if (action == actions['load_data'] && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath))
+      if (action == actions['load_example']) data <<- read.csv(isolate(input$example.file))
+      if (action == actions['edit_cell'] && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
           if (is.numeric(data[, col.number])) {
               new.value <- as.numeric(new.value)
               if (!is.na(new.value)) data[row.number, col.number] <<- new.value
@@ -54,8 +54,8 @@ shinyServer(function(input, output) {
           }
       }
       if (action == actions['reset']) data <<- data.frame()
-      if (action == 'Renombrar columna' && new.name != '' && col.number > 0 && col.number <= ncol(data)) colnames(data)[col.number] <<- new.name
-      if (action == 'Renombrar fila' && new.name != '' && row.number > 0 && row.number <= nrow(data)) rownames(data)[row.number] <<- new.name
+      if (action == actions['rename_column'] && new.name != '' && col.number > 0 && col.number <= ncol(data)) colnames(data)[col.number] <<- new.name
+      if (action == actions['rename_row'] && new.name != '' && row.number > 0 && row.number <= nrow(data)) rownames(data)[row.number] <<- new.name
       data
   })
   # se recalcula cuando cambian los parámetros de entrada
