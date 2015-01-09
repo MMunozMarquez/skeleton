@@ -14,11 +14,15 @@ actions.en <- c(add_column = 'Add column', add_row = 'Add row', drop_column = 'D
                 rename_column = 'Rename column', rename_row = 'Rename row', reset = 'Reset')
 
 text.es <- c(action = 'Acción', character = 'Carácter', data = 'Datos', column = 'Columna', download_data = 'Descargar datos',
-             example = 'Ejemplo', information = 'Información', go = 'Hacer', factor = 'Factor', name = 'Nombre',
-             numeric = 'Numérico', row = 'Fila', title = 'Esqueleto de aplicación con creación, edición, carga y descarga de data.frame', type = 'Tipo')
+             example = 'Ejemplo', file = 'Fichero', graphic = 'Gráfico', information = 'Información', go = 'Hacer', factor = 'Factor', name = 'Nombre',
+             numeric = 'Numérico', results = 'Resultados', row = 'Fila', separator = "Separador",
+             title = 'Esqueleto de aplicación con creación, edición, carga y descarga de data.frame', type = 'Tipo',
+             value ='Valor')
 text.en <- c(action = 'Action', character = 'Character', data = 'Data', column = 'Column', download_data = 'Download data',
-             example = 'Example', information = 'Information', go = 'Go', factor = 'Factor', name = 'Name',
-             numeric = 'Numeric', row = 'Row', title = 'Application skeleton for create, edit, load and download data.frame', type = 'Type')
+             example = 'Example', file = 'File', graphic = 'Graphic', information = 'Information', go = 'Go', factor = 'Factor', name = 'Name',
+             numeric = 'Numeric', results = 'Results', row = 'Row', separator = "Separator",
+             title = 'Application skeleton for create, edit, load and download data.frame', type = 'Type',
+             value = 'Value')
 
 actions <- actions.es
 text <- text.es
