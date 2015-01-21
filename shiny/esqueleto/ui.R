@@ -16,7 +16,7 @@ shinyUI(pageWithSidebar(
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
     selectInput('action', text['action'], choices = paste(actions), selected = actions['load_example']),
-    conditionalPanel(condition = paste0("input.action =='", actions['add_column'],"'"), selectInput('col.type', text['type'], paste(text[c('numeric', 'factor', 'character')]))),
+    conditionalPanel(condition = paste0("(input.action =='", actions['add_column'],"') || (input.action == '", actions['add_input'], "')"), selectInput('col.type', text['type'], paste(text[c('numeric', 'factor', 'character')]))),
     conditionalPanel(condition = paste0("(input.action == '", actions['drop_row'], "') || (input.action == '", actions['edit_cell'], "') || (input.action == '", actions['rename_row'], "')"), numericInput('row.number', text['row'], value = 0)),
     conditionalPanel(condition = paste0("(input.action == '", actions['drop_column'], "') || (input.action == '", actions['edit_cell'], "') || (input.action == '", actions['rename_column'], "')"), numericInput('col.number', text['column'], value = 0)),
     conditionalPanel(condition = paste0("(input.action == '", actions['add_column'], "') || (input.action == '", actions['rename_row'], "') || (input.action == '", actions['rename_column'], "')"), textInput('new.name', text['name'], value = '')),

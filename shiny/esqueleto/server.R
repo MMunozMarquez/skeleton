@@ -7,6 +7,7 @@
 # Initialize data
 source('common.R')
 data <- data.frame()
+iovar <- c()
 
 # Define la lógica para el cálculo de los resultados
 # Los datos de entrada se reciben en input
@@ -73,7 +74,7 @@ shinyServer(function(input, output) {
   
 # Output solution
   output$Solution <- renderTable({
-     data <- dataInput()
+     data <- dataInput()[, iovar == 'i']
      if (nrow(data) > 0) {
          summary(data)
      }
