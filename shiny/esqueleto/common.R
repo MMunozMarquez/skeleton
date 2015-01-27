@@ -28,12 +28,14 @@ information.en <- c('This application allows create, edit, load and download a c
 
 text.es <- c(action = 'Acción', character = 'Carácter', data = 'Datos', column = 'Columna', download_data = 'Descargar datos',
              example = 'Ejemplo', file = 'Fichero', graphic = 'Gráfico', information = 'Información', go = 'Hacer', factor = 'Factor', main_menu = 'Menú principal de ejemplos', name = 'Nombre',
-             numeric = 'Numérico', other_language = 'Engish version', other_url = '../skeleton', results = 'Resultados', row = 'Fila', separator = "Separador",
+             numeric = 'Numérico', other_language = 'Engish version', other_url = '../skeleton', results = 'Resultados', row = 'Fila',
+             space = '<Espacio>', separator = "Separador",
              title = 'Esqueleto de aplicación con creación, edición, carga y descarga de data.frame', type = 'Tipo',
              value ='Valor')
 text.en <- c(action = 'Action', character = 'Character', data = 'Data', column = 'Column', download_data = 'Download data',
              example = 'Example', file = 'File', graphic = 'Graphic', information = 'Information', go = 'Go', factor = 'Factor', main_menu = 'Main examples menu', name = 'Name',
-             numeric = 'Numeric', other_language = 'Versión española', other_url = '../esqueleto', results = 'Results', row = 'Row', separator = "Separator",
+             numeric = 'Numeric', other_language = 'Versión española', other_url = '../esqueleto', results = 'Results', row = 'Row',
+             space = '<Space>', separator = 'Separator',
              title = 'Application skeleton for create, edit, load and download data.frame', type = 'Type',
              value = 'Value')
 

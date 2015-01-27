@@ -39,7 +39,11 @@ shinyServer(function(input, output) {
       }
       if (action == actions['drop_column'] && col.number > 0 && col.number <= ncol(data)) data[,col.number] <<- NULL
       if (action == actions['drop_row'] && row.number > 0 && row.number <= nrow(data)) data <<- data[-row.number,]
-      if (action == actions['load_data'] && !isolate(is.null(input$input.file$datapath))) data <<- read.csv(isolate(input$input.file$datapath), sep= isolate(input$input.sep))
+      if (action == actions['load_data'] && !isolate(is.null(input$input.file$datapath))) {
+          sep <- isolate(input$input.sep)
+          sep <- ifelse(sep == text['space'], ' ', sep)
+          data <<- read.csv(isolate(input$input.file$datapath), sep = sep)
+      }
       if (action == actions['load_example']) data <<- read.csv(isolate(input$example.file))
       if (action == actions['edit_cell'] && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
           if (is.numeric(data[, col.number])) {
