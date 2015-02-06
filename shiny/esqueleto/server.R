@@ -65,7 +65,7 @@ shinyServer(function(input, output) {
   })
   # se recalcula cuando cambian los parámetros de entrada
   output$Plot <- renderPlot({
-      data <- dataInput()
+      dataInput()
       if (nrow(data) > 0) {
           plot(data, main = '')
       } else plot.new()
@@ -73,12 +73,13 @@ shinyServer(function(input, output) {
 
 # Output demand points
   output$Data <- renderTable({
-      data <- dataInput()
+      dataInput()
+      data
   })
   
 # Output solution
   output$Solution <- renderTable({
-     data <- dataInput()[, iovar == 'i']
+     dataInput()
      if (nrow(data) > 0) {
          summary(data)
      }
