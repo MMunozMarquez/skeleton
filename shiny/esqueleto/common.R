@@ -13,13 +13,13 @@ actions.en <- c(add_column = 'Add column', add_row = 'Add row', drop_column = 'D
                 rename_column = 'Rename column', rename_row = 'Rename row', reset = 'Reset')
 
 information.es <- c('Aplicación que permite la creación, edición, carga y descarga de un fichero csv con datos. Ha sido desarrollada para ser rehusada como esqueleto para nuevas aplicaciones.',
-   'Para comenzar introduzca los valores de los parámetros, seleccione una acción y pulse en el botón \"Hacer\". Seleccione la pestaña que desea visualizar.  Puede introducir nuevos valores y se actualizarán los resultados automáticamente.',
+   'Para comenzar: seleccione una acción, introduzca los valores de los parámetros y pulse en el botón \"Hacer\". Seleccione la pestaña que desea visualizar.  Puede introducir nuevos valores y se actualizarán los resultados automáticamente.',
    'Realizado con shiny por',
    'bajo licencia GNU-GPL como parte del',
    'Proyecto R-UCA'
    )
 information.en <- c('This application allows create, edit, load and download a csv data file. It has been developed as starting point for new applications.',
-   'To start input values for parameters, select an action, and press \"Go\". Select the tab to show. You can enter new values and the results will be updated automatically.',
+   'To start: select an action, input values for parameters, and press \"Go\". Select the tab to show. You can enter new values and the results will be updated automatically.',
    'Developed using shiny by',
    'under GNU-GPL licence inside',
    'R-UCA Project'
