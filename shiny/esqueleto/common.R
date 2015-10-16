@@ -12,7 +12,7 @@ actions.en <- c(add_column = 'Add column', add_row = 'Add row', drop_column = 'D
                 edit_cell = 'Edit cell', load_data = 'Load data', load_example = 'Load examples',
                 rename_column = 'Rename column', rename_row = 'Rename row', reset = 'Reset')
 
-information.es <- c('Aplicación que permite la creación, edición, carga y descarga de un fichero csv con datos. Ha sido desarrollada para ser rehusada como esqueleto para nuevas aplicaciones.',
+information.es <- c('Aplicación que permite la creación, edición, carga y descarga de un fichero csv con datos. Ha sido desarrollada para ser reusada como esqueleto para nuevas aplicaciones.',
    'Para comenzar: seleccione una acción, introduzca los valores de los parámetros y pulse en el botón \"Hacer\". Seleccione la pestaña que desea visualizar.  Puede introducir nuevos valores y se actualizarán los resultados automáticamente.',
    'Realizado con shiny por',
    'bajo licencia GNU-GPL como parte del',
