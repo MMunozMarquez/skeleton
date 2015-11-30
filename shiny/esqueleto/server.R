@@ -7,7 +7,6 @@
 # Initialize data
 source('common.R')
 data <- data.frame()
-iovar <- c()
 
 # Define la lógica para el cálculo de los resultados
 # Los datos de entrada se reciben en input
@@ -66,8 +65,9 @@ shinyServer(function(input, output) {
   # se recalcula cuando cambian los parámetros de entrada
   output$Plot <- renderPlot({
       dataInput()
-      if (nrow(data) > 0) {
-          plot(data, main = '')
+      .data <- na.omit(data)
+      if (nrow(.data) > 0) {
+          plot(.data, main = '')
       } else plot.new()
   })
 
