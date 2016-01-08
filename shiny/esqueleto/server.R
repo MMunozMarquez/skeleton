@@ -22,15 +22,15 @@ shinyServer(function(input, output) {
       col.type <- isolate(input$col.type)
       row.number <- isolate(ifelse(is.numeric(input$row.number), round(input$row.number), 0))
       if (action == actions['add_column'] && new.name != '') {
-          if (nrow(data) == 0) .data <- data.frame(numeric(0)) else .data <- data.frame(rep(NA, nrow(data)))
-          colnames(.data) <- new.name
-          .data[,1] <- switch(col.type,
+          .data <- switch(col.type,
               Numérico = ,
-              Numeric = as.numeric(.data[,1]),
-              Factor = as.factor(.data[,1]),
+              Numeric = numeric(rep(NA, nrow(data))),
+              Factor = as.factor(numeric(rep(NA, nrow(data))),
               Carácter = ,
-              Character = as.character(.data[,1])
-          )
+              Character = character(rep(NA, nrow(data)))
+                          )
+          .data <- data.frame(.data)
+          colnames(.data) <- new.name
           data <<- cbind(data, .data)
       }
       if (action == actions['add_row'] && ncol(data) > 0) {
