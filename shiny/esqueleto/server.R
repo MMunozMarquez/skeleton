@@ -25,7 +25,7 @@ shinyServer(function(input, output) {
           .data <- switch(col.type,
               Numérico = ,
               Numeric = numeric(rep(NA, nrow(data))),
-              Factor = as.factor(numeric(rep(NA, nrow(data))),
+              Factor = as.factor(numeric(rep(NA, nrow(data)))),
               Carácter = ,
               Character = character(rep(NA, nrow(data)))
                           )
