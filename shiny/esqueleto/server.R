@@ -1,4 +1,4 @@
-# Esqueleto de aplicación con creación, edición, carga y descarga de data.frame
+# Esqueleto de aplicación con creación, edición, carga y descarga de un conjunto de datos (data.frame)
 # Autor: Manuel Muñoz Márquez (manuel.munoz@uca.es)
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
@@ -24,14 +24,18 @@ shinyServer(function(input, output) {
       if (action == actions['add_column'] && new.name != '') {
           .data <- switch(col.type,
               Numérico = ,
-              Numeric = numeric(rep(NA, nrow(data))),
-              Factor = as.factor(numeric(rep(NA, nrow(data)))),
+              Numeric = as.numeric(rep(NA, nrow(data))),
+              Factor = as.factor(as.numeric(rep(NA, nrow(data)))),
               Carácter = ,
-              Character = character(rep(NA, nrow(data)))
+              Character = as.character(rep(NA, nrow(data)))
                           )
-          .data <- data.frame(.data)
+          .data <- data.frame(.data, stringsAsFactors = FALSE)
           colnames(.data) <- new.name
-          data <<- cbind(data, .data)
+          if (ncol(data) > 0) {
+              data <<- cbind(data, .data)
+          } else {
+              data <<- .data
+          }
       }
       if (action == actions['add_row'] && ncol(data) > 0) {
           if (ncol(data) > 0) data[nrow(data)+1,] <<- rep(NA, ncol(data))
@@ -44,6 +48,7 @@ shinyServer(function(input, output) {
           data <<- read.csv(isolate(input$input.file$datapath), sep = sep)
       }
       if (action == actions['load_example']) data <<- read.csv(isolate(input$example.file))
+      if (action == actions['delete_cell'] && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) data[row.number, col.number] <<- NA
       if (action == actions['edit_cell'] && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
           if (is.numeric(data[, col.number])) {
               new.value <- as.numeric(new.value)
@@ -60,18 +65,20 @@ shinyServer(function(input, output) {
       if (action == actions['reset']) data <<- data.frame()
       if (action == actions['rename_column'] && new.name != '' && col.number > 0 && col.number <= ncol(data)) colnames(data)[col.number] <<- new.name
       if (action == actions['rename_row'] && new.name != '' && row.number > 0 && row.number <= nrow(data)) rownames(data)[row.number] <<- new.name
+      if (action == actions['renumerate_row'] && nrow(data) > 0) rownames(data) <<- 1:nrow(data)
       data
   })
   # se recalcula cuando cambian los parámetros de entrada
   output$Plot <- renderPlot({
-      dataInput()
-      .data <- na.omit(data)
-      if (nrow(.data) > 0) {
+      .data <- na.omit(dataInput())
+      .plot <- FALSE
+      if (nrow(.data) > 0) for (i in 1:ncol(.data)) .plot <- .plot || is.factor(.data[,i]) || is.numeric(.data[,i])
+      if (.plot) {
           plot(.data, main = '')
       } else plot.new()
   })
 
-# Output demand points
+# Output data
   output$Data <- renderTable({
       dataInput()
       data

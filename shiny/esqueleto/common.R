@@ -1,4 +1,4 @@
-# Esqueleto de aplicación con creación, edición, carga y descarga de data.frame
+# Esqueleto de aplicación con creación, edición, carga y descarga de un conjunto de datos (data.frame)
 # Autor: Manuel Muñoz Márquez (manuel.munoz@uca.es)
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
@@ -6,11 +6,11 @@
 
 # Initialize common data for ui and server
 actions.es <- c(add_column = 'Añadir columna', add_row = 'Añadir fila', drop_column = 'Borrar columna', drop_row = 'Borrar fila',
-                edit_cell = 'Editar casilla', load_data = 'Cargar datos', load_example = 'Cargar ejemplos',
-                rename_column = 'Renombrar columna', rename_row = 'Renombrar fila', reset = 'Reiniciar')
+                edit_cell = 'Editar casilla', delete_cell = 'Vaciar casilla', load_data = 'Cargar datos', load_example = 'Cargar ejemplos',
+                rename_column = 'Renombrar columna', rename_row = 'Renombrar fila', renumerate_row = 'Renumerar filas', reset = 'Reiniciar')
 actions.en <- c(add_column = 'Add column', add_row = 'Add row', drop_column = 'Drop column', drop_row = 'Drop row',
-                edit_cell = 'Edit cell', load_data = 'Load data', load_example = 'Load examples',
-                rename_column = 'Rename column', rename_row = 'Rename row', reset = 'Reset')
+                edit_cell = 'Edit cell', delete_cell = 'Empty cell', load_data = 'Load data', load_example = 'Load examples',
+                rename_column = 'Rename column', rename_row = 'Rename row', renumerate_row = 'Renumerate rows', reset = 'Reset')
 
 information.es <- c('Aplicación que permite la creación, edición, carga y descarga de un fichero csv con datos. Ha sido desarrollada para ser reusada como esqueleto para nuevas aplicaciones.',
    'Para comenzar: seleccione una acción, introduzca los valores de los parámetros y pulse en el botón \"Hacer\". Seleccione la pestaña que desea visualizar.  Puede introducir nuevos valores y se actualizarán los resultados automáticamente.',
@@ -30,13 +30,13 @@ text.es <- c(action = 'Acción', character = 'Carácter', data = 'Datos', column
              example = 'Ejemplo', file = 'Fichero', graphic = 'Gráfico', information = 'Información', go = 'Hacer', factor = 'Factor', main_menu = 'Menú principal de ejemplos', name = 'Nombre',
              numeric = 'Numérico', other_language = 'Engish version', other_url = '../skeleton', results = 'Resultados', row = 'Fila',
              space = '<Espacio>', separator = "Separador",
-             title = 'Esqueleto de aplicación con creación, edición, carga y descarga de data.frame', type = 'Tipo',
+             title = 'Esqueleto de aplicación con creación, edición, carga y descarga de un conjunto de datos (data.frame en R)', type = 'Tipo',
              value ='Valor')
 text.en <- c(action = 'Action', character = 'Character', data = 'Data', column = 'Column', download_data = 'Download data',
              example = 'Example', file = 'File', graphic = 'Graphic', information = 'Information', go = 'Go', factor = 'Factor', main_menu = 'Main examples menu', name = 'Name',
              numeric = 'Numeric', other_language = 'Versión española', other_url = '../esqueleto', results = 'Results', row = 'Row',
              space = '<Space>', separator = 'Separator',
-             title = 'Application skeleton for create, edit, load and download data.frame', type = 'Type',
+             title = 'Application skeleton for create, edit, load and download a data set (data.frame in R)', type = 'Type',
              value = 'Value')
 
 actions <- actions.es
