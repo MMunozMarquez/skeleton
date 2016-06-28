@@ -23,6 +23,7 @@ shinyUI(pageWithSidebar(
     conditionalPanel(condition = paste0("input.action == '", actions['edit_cell'], "'"), textInput('new.value', text['value'], value = '')),
     conditionalPanel(condition = paste0("input.action == '", actions['load_data'], "'"), fileInput(inputId = "input.file", label = text['file'], accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))),
     conditionalPanel(condition = paste0("input.action == '", actions['load_data'], "'"), selectInput(inputId = "input.sep", text['separator'], choices = c(',', ';', paste(text['space'])), selected = ',')),
+    conditionalPanel(condition = paste0("input.action == '", actions['load_data'], "'"), selectInput(inputId = "input.dec", text['decimal'], choices = c('.', ','), selected = '.')),
     conditionalPanel(condition = paste0("input.action == '", actions['load_example'], "'"), selectInput('example.file', text['example'], c('ejemplo1.csv', 'ejemplo2.csv'))),
     actionButton('goButton', text['go']),
     hr(),
