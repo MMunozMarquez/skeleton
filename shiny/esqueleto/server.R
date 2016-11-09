@@ -4,9 +4,14 @@
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
 #
 
-# Initialize data
+# Load common functions
 source('common.R')
-data <- data.frame()
+
+# Load user function
+source('user.R')
+
+# Initialize data
+data <- new.data()
 
 # Define la lógica para el cálculo de los resultados
 # Los datos de entrada se reciben en input
@@ -63,7 +68,7 @@ shinyServer(function(input, output) {
               } else data[row.number, col.number] <<- new.value
           }
       }
-      if (action == actions['reset']) data <<- data.frame()
+      if (action == actions['reset']) data <<- new.data()
       if (action == actions['rename_column'] && new.name != '' && col.number > 0 && col.number <= ncol(data)) colnames(data)[col.number] <<- new.name
       if (action == actions['rename_row'] && new.name != '' && row.number > 0 && row.number <= nrow(data)) rownames(data)[row.number] <<- new.name
       if (action == actions['renumerate_row'] && nrow(data) > 0) rownames(data) <<- 1:nrow(data)

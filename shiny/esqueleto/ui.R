@@ -4,8 +4,11 @@
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
 #
 
-# Initialize data
+# Load common functions
 source('common.R')
+
+# Load user function
+source('user.R')
     
 # Definición de la interfaz para la recogida de datos
 shinyUI(pageWithSidebar(
@@ -15,7 +18,7 @@ shinyUI(pageWithSidebar(
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
-    selectInput('action', text['action'], choices = paste(actions)),
+    selectInput('action', action.title(language = Language), choices = paste(actions)),
     conditionalPanel(condition = paste0("(input.action =='", actions['add_column'],"') || (input.action == '", actions['add_input'], "')"), selectInput('col.type', text['type'], paste(text[c('numeric', 'factor', 'character')]))),
     conditionalPanel(condition = paste0("(input.action == '", actions['drop_row'], "') || (input.action == '", actions['edit_cell'], "') || (input.action == '", actions['delete_cell'], "') || (input.action == '", actions['rename_row'], "')"), numericInput('row.number', text['row'], value = 0)),
     conditionalPanel(condition = paste0("(input.action == '", actions['drop_column'], "') || (input.action == '", actions['delete_cell'], "') || (input.action == '", actions['edit_cell'], "') || (input.action == '", actions['rename_column'], "')"), numericInput('col.number', text['column'], value = 0)),
@@ -35,10 +38,8 @@ shinyUI(pageWithSidebar(
   # Muestra los resultados
   mainPanel(
       tabsetPanel(
-          tabPanel(text['information'], 
-                   p(information[1]),
-                   p(information[2]),
-                   p(information[3], a("M. Muñoz-Márquez", href="mailto:manuel.munoz@uca.es"), information[4], a(information[5], href="http://knuth.uca.es/R"), ".")
+          tabPanel(information.title(language = Language),
+                   information.text(language = Language)
                    ),
           tabPanel(text['data'],
                    tableOutput('Data')
