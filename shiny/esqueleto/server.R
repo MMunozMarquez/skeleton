@@ -75,13 +75,9 @@ shinyServer(function(input, output) {
       data
   })
   # se recalcula cuando cambian los parámetros de entrada
-  output$Plot <- renderPlot({
-      .data <- na.omit(dataInput())
-      .plot <- FALSE
-      if (nrow(.data) > 0) for (i in 1:ncol(.data)) .plot <- .plot || is.factor(.data[,i]) || is.numeric(.data[,i])
-      if (.plot) {
-          plot(.data, main = '')
-      } else plot.new()
+  output$Graphic <- renderPlot({
+    dataInput()
+    graphic.plot(data)
   })
 
 # Output data
@@ -91,11 +87,9 @@ shinyServer(function(input, output) {
   })
   
 # Output solution
-  output$Solution <- renderTable({
-     dataInput()
-     if (nrow(data) > 0) {
-         summary(data)
-     }
+  output$Results <- renderTable({
+    dataInput()
+    results(data)
   })
 
 # Download

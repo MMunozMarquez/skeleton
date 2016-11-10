@@ -14,7 +14,7 @@ source('user.R')
 shinyUI(pageWithSidebar(
 
   # Título de la aplicación
-  headerPanel(text['title']),
+  headerPanel(main.title(language = Language)),
 
   # Definición del panel lateral para la introducción de datos
   sidebarPanel(
@@ -41,14 +41,14 @@ shinyUI(pageWithSidebar(
           tabPanel(information.title(language = Language),
                    information.text(language = Language)
                    ),
-          tabPanel(text['data'],
+          tabPanel(data.title(language = Language),
                    tableOutput('Data')
           ),
-          tabPanel(text['graphic'],
-                   plotOutput("Plot")
+          tabPanel(results.title(language = Language),
+                   tableOutput('Results')
           ),
-          tabPanel(text['results'],
-                   tableOutput('Solution')
+          tabPanel(graphic.title(language = Language),
+                   plotOutput("Graphic")
           )
        )      
     )
