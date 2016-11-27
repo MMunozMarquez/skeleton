@@ -45,7 +45,7 @@ shinyUI(pageWithSidebar(
                    tableOutput('Data')
           ),
           tabPanel(results.title(language = Language),
-                   tableOutput('Results')
+                   verbatimTextOutput('Results')
           ),
           tabPanel(graphic.title(language = Language),
                    plotOutput("Graphic")

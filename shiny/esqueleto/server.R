@@ -87,7 +87,7 @@ shinyServer(function(input, output) {
   })
   
 # Output solution
-  output$Results <- renderTable({
+  output$Results <- renderPrint({
     dataInput()
     results(data)
   })
