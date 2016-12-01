@@ -9,7 +9,7 @@ source('common.R')
 
 # Load user function
 source('user.R')
-    
+
 # Definición de la interfaz para la recogida de datos
 shinyUI(pageWithSidebar(
 
@@ -27,7 +27,7 @@ shinyUI(pageWithSidebar(
     conditionalPanel(condition = paste0("input.action == '", actions['load_data'], "'"), fileInput(inputId = "input.file", label = text['file'], accept =c("txt/csv", "text/comma-separated-values,text/plain", ".csv"))),
     conditionalPanel(condition = paste0("input.action == '", actions['load_data'], "'"), selectInput(inputId = "input.sep", text['separator'], choices = c(',', ';', paste(text['space'])), selected = ',')),
     conditionalPanel(condition = paste0("input.action == '", actions['load_data'], "'"), selectInput(inputId = "input.dec", text['decimal'], choices = c('.', ','), selected = '.')),
-    conditionalPanel(condition = paste0("input.action == '", actions['load_example'], "'"), selectInput('example.file', text['example'], c('ejemplo1.csv', 'ejemplo2.csv'))),
+    conditionalPanel(condition = paste0("input.action == '", actions['load_example'], "'"), selectInput('example.file', text['example'], examples.files())),
     actionButton('goButton', text['go']),
     hr(),
     downloadButton('downloadData', text['download_data']),
@@ -50,6 +50,6 @@ shinyUI(pageWithSidebar(
           tabPanel(graphic.title(language = Language),
                    plotOutput("Graphic")
           )
-       )      
+       )
     )
 ))

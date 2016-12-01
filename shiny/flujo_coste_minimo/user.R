@@ -45,6 +45,11 @@ information.text <- function(language = 'en') {
   )
 }
 
+### Examples data set
+examples.files <- function() {
+  c('ejemplo1.csv', 'ejemplo2.csv')
+}
+
 ### Data panel
 # Title of data tab
 data.title <- function(language = 'en') {
