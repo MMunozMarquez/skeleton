@@ -78,11 +78,10 @@ graphic.title <- function(language = 'en') {
 # Function that plots the results
 # This function must call results if it need it
 graphic.plot <- function(data) {
-  .data <- na.omit(data)
   .plot <- FALSE
-  if (nrow(.data) > 0) for (i in 1:ncol(.data)) .plot <- .plot || is.factor(.data[,i]) || is.numeric(.data[,i])
+  if (nrow(data) > 0) for (i in 1:ncol(data)) .plot <- .plot || is.factor(data[,i]) || is.numeric(data[,i])
   if (.plot) {
-    plot(.data, main = '')
+    plot(data, main = '')
   } else plot.new()
 }
 

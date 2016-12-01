@@ -69,9 +69,23 @@ results.title <- function(language = 'en') {
 }
 # Function that computes the results
 results <- function(data) {
+  # Compute the number of nodes
   n <- max(sum(!is.na(data$nombre)), max(data$origen), max(data$destino))
+  # Compute the number of arc
   m <- sum(!is.na(data$origen) & !is.na(data$destino))
-  m
+  # Compute the objective function coefficients
+  cfo <- matrix(0, ncol = n, nrow = n)
+  for (i in 1:nrow(data)) {
+    if (!is.na(data$origen[i]) && !is.na(data$destino[i])) cfo[data$origen[i], data$destino[i]] <- data$coste[i]
+    }
+  cfo <- c(t(cfo))
+  # Compute the right hand side
+  demanda <- data$demanda
+  demanda[is.na(demanda)] <- 0
+  oferta <- data$oferta
+  oferta[is.na(oferta)] <- 0
+  cld <- demanda - oferta
+  cld
 }
 
 ### Plot panel
@@ -84,12 +98,11 @@ graphic.title <- function(language = 'en') {
 }
 # Function that plots the results
 # This function must call results if it need it
-graphic.plot <- function(data) {
-  .data <- na.omit(data)
+graphic.plot <- function(data) {  
   .plot <- FALSE
-  if (nrow(.data) > 0) for (i in 1:ncol(.data)) .plot <- .plot || is.factor(.data[,i]) || is.numeric(.data[,i])
+  if (nrow(data) > 0) for (i in 1:ncol(data)) .plot <- .plot || is.factor(data[,i]) || is.numeric(data[,i])
   if (.plot) {
-    plot(.data, main = '')
+    plot(data, main = '')
   } else plot.new()
 }
 
