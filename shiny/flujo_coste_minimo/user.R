@@ -85,7 +85,25 @@ results <- function(data) {
   oferta <- data$oferta
   oferta[is.na(oferta)] <- 0
   cld <- demanda - oferta
-  cld
+  # Compute technology matrix coefficient
+  A <- matrix(0, ncol = n^2, nrow = n)
+  for (i in 1:nrow(data)) {
+    if (!is.na(data$origen[i]) && !is.na(data$destino[i])) {
+      A[data$destino[i], (data$origen[i] -1) * n + data$destino[i]] <- 1
+      A[data$origen[i], (data$origen[i] -1) * n + data$destino[i]] <- -1
+    }
+  }
+  # Solve
+  sol <- lp(direction = 'min', objective.in = cfo, const.mat = A, const.rhs = cld, const.dir = rep('>=', n))
+  # Output solution
+  cat('El coste total es', sol$objval, '\n')
+  cat('La solución es\n')
+  sol <- sol$solution
+  sol[sol == 0] <- NA
+  sol <- t(matrix(sol, ncol = n))
+  colnames(sol) <- data$nombre[1:n]
+  rownames(sol) <- data$nombre[1:n]
+  print(sol, na.print = '')
 }
 
 ### Plot panel
@@ -98,7 +116,7 @@ graphic.title <- function(language = 'en') {
 }
 # Function that plots the results
 # This function must call results if it need it
-graphic.plot <- function(data) {  
+graphic.plot <- function(data) {
   .plot <- FALSE
   if (nrow(data) > 0) for (i in 1:ncol(data)) .plot <- .plot || is.factor(data[,i]) || is.numeric(data[,i])
   if (.plot) {
