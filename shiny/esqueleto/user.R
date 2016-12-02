@@ -37,12 +37,17 @@ information.text <- function(language = 'en') {
                    Puede introducir nuevos valores y se actualizarán los resultados automáticamente.</p>\
                    <p align="justify">Realizado con shiny por <a href="mailto:manuel.munoz@uca.es">M. Muñoz-Márquez</a> bajo licencia GNU-GPL como parte del <a href="http://knuth.uca.es/R">Proyecto R-UCA</a>.</p>'),
          HTML('<p align="justify">This application allows create, edit, load and download a csv data file. \
-              It has been developed as starting point for new applications.</p>\ 
+              It has been developed as starting point for new applications.</p>\
               <p align="justify">To start: select an action, input values for parameters, and press \"Go\". \
               Select the tab to show. \
               You can enter new values and the results will be updated automatically.</p>\
               <p align="justify">Developed using shiny by <a href="mailto:manuel.munoz@uca.es">M. Muñoz-Márquez</a> under GNU-GPL licence inside <a href="http://knuth.uca.es/R">R-UCA Project</a>.')
   )
+}
+
+### Examples data set
+examples.files <- function() {
+  c('ejemplo1.csv', 'ejemplo2.csv')
 }
 
 ### Data panel
