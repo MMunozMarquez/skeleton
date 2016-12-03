@@ -74,10 +74,12 @@ results <- function(data) {
   n <- max(sum(!is.na(data$nombre)), max(data$origen, na.rm = TRUE), max(data$destino, na.rm = TRUE))
   # Compute the number of arc
   m <- sum(!is.na(data$origen) & !is.na(data$destino))
+  # Return if no enough data available
+  if (n == 0) return(invisible(NULL))
   # Compute the objective function coefficients
   cfo <- matrix(0, ncol = n, nrow = n)
   for (i in 1:nrow(data)) {
-    if (!is.na(data$origen[i]) && !is.na(data$destino[i])) cfo[data$origen[i], data$destino[i]] <- data$coste[i]
+    if (!is.na(data$origen[i]) && !is.na(data$destino[i]) && !is.na(data$coste[i])) cfo[data$origen[i], data$destino[i]] <- data$coste[i]
     }
   cfo <- c(t(cfo))
   # Compute the right hand side
@@ -98,12 +100,16 @@ results <- function(data) {
   }
   # As lp does not allow to include limits over the value of variable
   # It is neccesary to put this limits as new restrictions
-  ###AE <- matrix(0, ncol = n^2, nrow = m)
-  ###for (i in 1:nrow(data)) {
-  ###  if (!is.na(data$origen[i]) && !is.na(data$destino[i])) AE[data$origen[i], (data$origen[i] -1) * n + data$destino[i]] <- 1
-  ###}
+  clde <- rep(0, m)
+  AE <- matrix(0, ncol = n^2, nrow = m)
+  for (i in 1:nrow(data)) {
+    if (!is.na(data$origen[i]) && !is.na(data$destino[i]) && !is.na(data$capacidad[i])) {
+      AE[i, (data$origen[i] -1) * n + data$destino[i]] <- 1
+      clde[i] <- data$capacidad[i]
+    }
+  }
   # Solve
-  sol <- lp(direction = 'min', objective.in = cfo, const.mat = A, const.rhs = cld, const.dir = rep('>=', n))
+  sol <- lp(direction = 'min', objective.in = cfo, const.mat = rbind(A, AE), const.rhs = c(cld, clde), const.dir = c(rep('>=', n), rep('<=', m)))
   # Output solution
   if (sol$status != 0) {
     cat('El problema es infactible.')
@@ -113,10 +119,14 @@ results <- function(data) {
     sol <- sol$solution
     sol[sol == 0] <- NA
     sol <- t(matrix(sol, ncol = n))
-    colnames(sol) <- data$nombre[1:n]
-    rownames(sol) <- data$nombre[1:n]
+    nombres <- data$nombre[1:n]
+    nombres[is.na(nombres)] <- paste0('Nodo_', which(is.na(nombres)))
+    colnames(sol) <- nombres
+    rownames(sol) <- nombres
     print(sol, na.print = '')
-    }
+  }
+  # Return solution perphaps it is needed
+  invisible(sol)
 }
 
 ### Plot panel
