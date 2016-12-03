@@ -6,6 +6,7 @@
 # This file includes the definition of the user functions
 # The user can defined here it's own funtion
 # All required packages must be load here
+library('lpSolve', quietly = TRUE)
 
 ### Definition of new data set, as data.frame, suitable for current model
 new.data <- function() {
@@ -70,7 +71,7 @@ results.title <- function(language = 'en') {
 # Function that computes the results
 results <- function(data) {
   # Compute the number of nodes
-  n <- max(sum(!is.na(data$nombre)), max(data$origen), max(data$destino))
+  n <- max(sum(!is.na(data$nombre)), max(data$origen, na.rm = TRUE), max(data$destino, na.rm = TRUE))
   # Compute the number of arc
   m <- sum(!is.na(data$origen) & !is.na(data$destino))
   # Compute the objective function coefficients
@@ -85,6 +86,8 @@ results <- function(data) {
   oferta <- data$oferta
   oferta[is.na(oferta)] <- 0
   cld <- demanda - oferta
+  cld <- cld[1:n]
+  cld[is.na(cld)] <- 0
   # Compute technology matrix coefficient
   A <- matrix(0, ncol = n^2, nrow = n)
   for (i in 1:nrow(data)) {
@@ -93,17 +96,27 @@ results <- function(data) {
       A[data$origen[i], (data$origen[i] -1) * n + data$destino[i]] <- -1
     }
   }
+  # As lp does not allow to include limits over the value of variable
+  # It is neccesary to put this limits as new restrictions
+  ###AE <- matrix(0, ncol = n^2, nrow = m)
+  ###for (i in 1:nrow(data)) {
+  ###  if (!is.na(data$origen[i]) && !is.na(data$destino[i])) AE[data$origen[i], (data$origen[i] -1) * n + data$destino[i]] <- 1
+  ###}
   # Solve
   sol <- lp(direction = 'min', objective.in = cfo, const.mat = A, const.rhs = cld, const.dir = rep('>=', n))
   # Output solution
-  cat('El coste total es', sol$objval, '\n')
-  cat('La solución es\n')
-  sol <- sol$solution
-  sol[sol == 0] <- NA
-  sol <- t(matrix(sol, ncol = n))
-  colnames(sol) <- data$nombre[1:n]
-  rownames(sol) <- data$nombre[1:n]
-  print(sol, na.print = '')
+  if (sol$status != 0) {
+    cat('El problema es infactible.')
+  } else {
+    cat('El coste total es ', sol$objval, '.\n', sep = '')
+    cat('La solución es:\n')
+    sol <- sol$solution
+    sol[sol == 0] <- NA
+    sol <- t(matrix(sol, ncol = n))
+    colnames(sol) <- data$nombre[1:n]
+    rownames(sol) <- data$nombre[1:n]
+    print(sol, na.print = '')
+    }
 }
 
 ### Plot panel
