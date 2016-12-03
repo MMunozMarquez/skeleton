@@ -51,9 +51,9 @@ shinyServer(function(input, output) {
           sep <- isolate(input$input.sep)
           sep <- ifelse(sep == text['space'], ' ', sep)
           dec <- isolate(input$input.dec)
-          data <<- read.csv(isolate(input$input.file$datapath), sep = sep, dec = dec)
+          data <<- read.csv(isolate(input$input.file$datapath), sep = sep, dec = dec, stringsAsFactors = FALSE)
       }
-      if (action == actions['load_example']) data <<- read.csv(isolate(input$example.file))
+      if (action == actions['load_example']) data <<- read.csv(isolate(input$example.file), stringsAsFactors = FALSE)
       if (action == actions['delete_cell'] && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) data[row.number, col.number] <<- NA
       if (action == actions['edit_cell'] && new.value != '' && row.number > 0 && row.number <= nrow(data) && col.number > 0 && col.number <= ncol(data)) {
           if (is.numeric(data[, col.number])) {
