@@ -20,6 +20,20 @@ main.title <- function(language = 'en') {
          )
 }
 
+### Menu panel
+other_url <- function(language = 'en') {
+  switch (language,
+          es = '../skeleton',
+          '../esqueleto'
+  )
+}
+other_language <- function(language = 'en') {
+  switch (language,
+          es = 'English version',
+          'Versión española'
+  )
+}
+
 ### Information tab definitions
 # Title of the information tab
 information.title <- function(language = 'en') {

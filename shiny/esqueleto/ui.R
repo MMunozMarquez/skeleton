@@ -35,7 +35,7 @@ shinyUI(pageWithSidebar(
     downloadButton('downloadData', text['download_data']),
     hr(),
     p(a(text['main_menu'], href='http://knuth.uca.es/shiny/')),
-    p(a(text['other_language'], href=text['other_url']))
+    p(a(other_language(language = Language), href=other_url(language = Language)))
   ),
   # Muestra los resultados
   mainPanel(
