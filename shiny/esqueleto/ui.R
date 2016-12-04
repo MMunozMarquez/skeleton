@@ -2,6 +2,8 @@
 # Autor: Manuel Muñoz Márquez (manuel.munoz@uca.es)
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
+# Versión on-line: http://knuth.uca.es/shiny/esqueleto/
+# Repositorio: http://knuth.uca.es/repos/R-contribuciones/shiny/esqueleto/
 #
 
 # Load common functions
