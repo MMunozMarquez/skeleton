@@ -21,6 +21,20 @@ main.title <- function(language = 'en') {
          )
 }
 
+### Menu panel
+other_url <- function(language = 'en') {
+  switch (language,
+    es = '../min_flow_cost',
+    '../flujo_coste_minimo'
+  )
+}
+other_language <- function(language = 'en') {
+  switch (language,
+          es = 'English version',
+          'Versión española'
+  )
+}
+
 ### Information tab definitions
 # Title of the information tab
 information.title <- function(language = 'en') {
@@ -41,8 +55,11 @@ information.text <- function(language = 'en') {
                    Seleccione la pestaña que desea visualizar.  \
                    Puede introducir nuevos valores y se actualizarán los resultados automáticamente.</p>\
                    <p align="justify">Realizado con shiny por <a href="mailto:manuel.munoz@uca.es">M. Muñoz-Márquez</a> bajo licencia GNU-GPL como parte del <a href="http://knuth.uca.es/R">Proyecto R-UCA</a>.</p>'),
-         HTML('<p align="justify">This application allows create, edit, load and download a csv data file. \
-              It has been developed as starting point for new applications.</p>\
+         HTML('<p align="justify">The problem of flow of a minimum cost is to find the way of transport of a product from the origin nodes, sources nodes, to the destination nodes, sink nodes. \
+              Each pair origin destinationship has associated an unitary cost and each link between two nodes has a maximum capacity that can not be exceeded.</p>\
+              <p aling="justify">This application has been developed from the application <a href="http://knuth.uca.es/shiny/skeleton/">skeleton</a> for didactic purposes. \
+              The skeleton application has been developed so that the creation of applications like this one does not require knowledge of shiny or html.</p>\
+              <p aling="justify">A free <b>course</b> is available on request, which explains in detail how to do this process.</p>\
               <p align="justify">To start: select an action, input values for parameters, and press \"Go\". \
               Select the tab to show. \
               You can enter new values and the results will be updated automatically.</p>\
