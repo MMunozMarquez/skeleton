@@ -16,8 +16,8 @@ new.data <- function() {
 ### Main panel
 main.title <- function(language = 'en') {
   switch(language,
-         es = 'Esqueleto de aplicación con creación, edición, carga y descarga de un conjunto de datos (data.frame en R)',
-         'Application skeleton for create, edit, load and download a data set (data.frame in R)'
+         es = 'Cálculo del flujo a coste mínimo entre las fuentes y los sumideros (Aplicación derivada de la aplicación esqueleto)',
+         'Look for the minimum cost flow from origins to destinations (Application developed from skeleton application)'
          )
 }
 
@@ -31,8 +31,12 @@ information.title <- function(language = 'en') {
 # Text of the information tab
 information.text <- function(language = 'en') {
   switch(language,
-         es = HTML('<p align="justify">Aplicación que permite la creación, edición, carga y descarga de un fichero csv con datos. \
-                   Ha sido desarrollada para ser reusada como esqueleto para nuevas aplicaciones.</p>\
+         es = HTML('<p align="justify">El problema de flujo a coste mínimo consiste en encontrar la forma de transportar un producto desde unos nodos origen conocidos como fuentes a los nodos destino conocidos como sumidero. \
+                  De cada fuente se conoce su oferta y de cada sumidero su demanda. \
+                  Cada envío lleva asociado un coste unitario y cada enlace entre dos nodos tiene una capacidad máxima que no puede sobrepasarse.</p>\
+                  <p align="justify">Esta aplicación ha sido desarrollada a partir de la aplicación <a href="http://knuth.uca.es/shiny/esqueleto/">esqueleto</a> con fines didácticos. \
+                  La aplicación esqueleto ha sido desarrollada de forma que la creación de aplicaciones como ésta a partir de ella no requiere conocimientos de shiny ni de html.</p>\
+                  <p align="justify">Está disponible bajo petición un <b>curso gratuito</b> donde se explica de forma detallada la forma de realizar este proceso.</p>\
                    <p align="justify">Para comenzar: seleccione una acción, introduzca los valores de los parámetros y pulse en el botón \"Hacer\". \
                    Seleccione la pestaña que desea visualizar.  \
                    Puede introducir nuevos valores y se actualizarán los resultados automáticamente.</p>\
