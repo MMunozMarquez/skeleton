@@ -80,10 +80,7 @@ shinyServer(function(input, output) {
   # se recalcula cuando cambian los parámetros de entrada
   output$Graphic <- renderPlot({
     dataInput()
-    print(data)
-    if (ncol(data) > 0) {
-      columns <- sapply(data, function(x) {is.numeric(x) | is.factor(x)})
-      if (sum(columns) > 1) graphic.plot(data[, columns])}
+    graphic.plot(data)
   })
 
 # Output data

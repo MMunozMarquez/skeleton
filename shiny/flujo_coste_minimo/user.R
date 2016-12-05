@@ -6,6 +6,7 @@
 # This file includes the definition of the user functions
 # The user can defined here it's own funtion
 # All required packages must be load here
+library('igraph', quietly = TRUE)
 library('lpSolve', quietly = TRUE)
 
 ### Definition of new data set, as data.frame, suitable for current model
@@ -134,6 +135,7 @@ results <- function(data) {
   # Output solution
   if (sol$status != 0) {
     cat('El problema es infactible.')
+    return(invisible(NULL))
   } else {
     cat('El coste total es ', sol$objval, '.\n', sep = '')
     cat('La solución es:\n')
@@ -161,10 +163,33 @@ graphic.title <- function(language = 'en') {
 # Function that plots the results
 # This function must call results if it need it
 graphic.plot <- function(data) {
-  .plot <- FALSE
-  if (nrow(data) > 0) for (i in 1:ncol(data)) .plot <- .plot || is.factor(data[,i]) || is.numeric(data[,i])
-  if (.plot) {
-    plot(data, main = '')
-  } else plot.new()
+    # Compute the number of nodes
+    n <- max(sum(!is.na(data$nombre)), max(data$origen, na.rm = TRUE), max(data$destino, na.rm = TRUE))
+    if (n > 0) {
+        # Solve
+        sol <- results(data)
+        if (is.null(sol)) {
+            plot.new()
+        } else {
+            # Build igraph
+            n <- nrow(sol)
+            g <- make_empty_graph(n = n)
+            vlabel <- numeric(0)
+            elabel <- numeric(0)
+            for (i in 1:n) {
+                vlabel <- c(vlabel, ifelse(is.na(data$nombre[i]), paste0('Nodo_', i), data$nombre[i]))
+                for (j in 1:n) {
+                    if (!is.na(sol[i,j]) && sol[i,j] > 0) {
+                        g <- g %>% add_edges(c(i, j), color = 'green')
+                        elabel <- c(elabel, sol[i,j])
+                    }
+                }
+            }
+            g <- g %>% set_vertex_attr('label', value = vlabel)
+            g <- g %>% set_edge_attr('label', value = round(elabel, 1))
+            plot(g)
+        }
+    } else {
+        plot.new()
+    }
 }
-
