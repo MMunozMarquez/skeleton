@@ -204,7 +204,7 @@ graphic.plot <- function(data) {
             # Show solution in arcs using color code
             g <- set_edge_attr(graph = g, name = 'label', value = paste(round(data$x, 0), '/', data$capacidad))           
             g <- set_edge_attr(graph = g, name = 'color', value = data$color)
-            tkplot(g)
+            if (Sys.getenv('SHINY_PORT') == "") tkplot(g)
             plot(g)
         }
     } else {
