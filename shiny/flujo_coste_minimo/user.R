@@ -172,12 +172,22 @@ graphic.plot <- function(data) {
             plot.new()
         } else {
             # Save solution into data
+            data$vcolor <- 'white'
+            data$vshape <- 'circle'
             data$color <- 'black'
             data$x <- 0
             for (i in 1:nrow(data)) {
                 if (!is.na(sol[data$origen[i], data$destino[i]])) {
                     data$x[i] <- sol[data$origen[i], data$destino[i]]
                     data$color[i] <- ifelse(round(data$x[i], 0) == data$capacidad[i], 'red', 'green')
+                    }
+                if (!is.na(data$oferta[i])) {
+                    data$vcolor[i] <- 'yellow'
+                    data$vshape[i] <- 'square'
+                    }
+                if (!is.na(data$demanda[i])) {
+                    data$vcolor[i] <- 'orange'
+                    data$vshape[i] <- 'square'
                     }
             }
             print(data)
@@ -187,10 +197,14 @@ graphic.plot <- function(data) {
             # Set up node names
             nombres <- data$nombre[1:n]
             nombres[is.na(nombres)] <- paste0('Nodo_', which(is.na(nombres)))
+            #g <- set_vertex_attr(graph = g, name = 'label', value = paste0(nombres, '\n(', data$oferta[1:n], '/', data$demanda[1:n], ')'))
             g <- set_vertex_attr(graph = g, name = 'label', value = nombres)
+            g <- set_vertex_attr(graph = g, name = 'color', value = data$vcolor[1:n])
+            g <- set_vertex_attr(graph = g, name = 'shape', value = data$vshape[1:n])
             # Show solution in arcs using color code
             g <- set_edge_attr(graph = g, name = 'label', value = paste(round(data$x, 0), '/', data$capacidad))           
             g <- set_edge_attr(graph = g, name = 'color', value = data$color)
+            tkplot(g)
             plot(g)
         }
     } else {
