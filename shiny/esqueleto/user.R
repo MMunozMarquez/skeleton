@@ -97,10 +97,11 @@ graphic.title <- function(language = 'en') {
 # Function that plots the results
 # This function must call results if it need it
 graphic.plot <- function(data) {
-  .plot <- FALSE
-  if (nrow(data) > 0) for (i in 1:ncol(data)) .plot <- .plot || is.factor(data[,i]) || is.numeric(data[,i])
-  if (.plot) {
-    plot(data, main = '')
-  } else plot.new()
+  if (ncol(data) > 0) {
+    columns <- sapply(data, function(x) {is.numeric(x) | is.factor(x)})
+    if (sum(columns) > 1) {
+      plot(data[, columns], main = '')
+      } else plot.new()
+  }
 }
 
