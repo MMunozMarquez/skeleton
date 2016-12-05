@@ -171,22 +171,26 @@ graphic.plot <- function(data) {
         if (is.null(sol)) {
             plot.new()
         } else {
+            # Save solution into data
+            data$color <- 'black'
+            data$x <- 0
+            for (i in 1:nrow(data)) {
+                if (!is.na(sol[data$origen[i], data$destino[i]])) {
+                    data$x[i] <- sol[data$origen[i], data$destino[i]]
+                    data$color[i] <- ifelse(round(data$x[i], 0) == data$capacidad[i], 'red', 'green')
+                    }
+            }
+            print(data)
             # Build igraph
             n <- nrow(sol)
-            g <- make_empty_graph(n = n)
-            vlabel <- numeric(0)
-            elabel <- numeric(0)
-            for (i in 1:n) {
-                vlabel <- c(vlabel, ifelse(is.na(data$nombre[i]), paste0('Nodo_', i), data$nombre[i]))
-                for (j in 1:n) {
-                    if (!is.na(sol[i,j]) && sol[i,j] > 0) {
-                        g <- g %>% add_edges(c(i, j), color = 'green')
-                        elabel <- c(elabel, sol[i,j])
-                    }
-                }
-            }
-            g <- g %>% set_vertex_attr('label', value = vlabel)
-            g <- g %>% set_edge_attr('label', value = round(elabel, 1))
+            g <- graph_from_edgelist(cbind(data$origen, data$destino))
+            # Set up node names
+            nombres <- data$nombre[1:n]
+            nombres[is.na(nombres)] <- paste0('Nodo_', which(is.na(nombres)))
+            g <- set_vertex_attr(graph = g, name = 'label', value = nombres)
+            # Show solution in arcs using color code
+            g <- set_edge_attr(graph = g, name = 'label', value = paste(round(data$x, 0), '/', data$capacidad))           
+            g <- set_edge_attr(graph = g, name = 'color', value = data$color)
             plot(g)
         }
     } else {
