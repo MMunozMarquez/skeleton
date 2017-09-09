@@ -1,0 +1,9 @@
+Esqueleto de aplicación con creación, edición, carga y descarga de un conjunto de datos (data.frame en R)
+
+Aplicación que permite la creación, edición, carga y descarga de un fichero csv con datos. Ha sido desarrollada para ser reusada como esqueleto para nuevas aplicaciones.
+
+Para comenzar: seleccione una acción, introduzca los valores de los parámetros y pulse en el botón "Hacer". Seleccione la pestaña que desea visualizar. Puede introducir nuevos valores y se actualizarán los resultados automáticamente.
+
+Realizado con shiny por M. Muñoz-Márquez bajo licencia GNU-GPL como parte del Proyecto R-UCA (http://knuth.uca.es).
+
+Para más información o una versión en línea de la aplicación puede consultar http://knuth.uca.es/shiny/esqueleto/ .
