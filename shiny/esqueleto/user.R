@@ -23,8 +23,8 @@ main.title <- function(language = 'en') {
 ### Menu panel
 other_url <- function(language = 'en') {
   switch (language,
-          es = '../skeleton',
-          '../esqueleto'
+          es = '../skeleton/',
+          '../esqueleto/'
   )
 }
 other_language <- function(language = 'en') {
@@ -60,8 +60,11 @@ information.text <- function(language = 'en') {
 }
 
 ### Examples data set
-examples.files <- function() {
-  c('ejemplo1.csv', 'ejemplo2.csv')
+examples.files <- function(language = 'en') {
+    switch(language,
+           es = c('ejemplo1.csv', 'ejemplo2.csv'),
+           c('example1.csv', 'example2.csv')
+           )
 }
 
 ### Data panel
