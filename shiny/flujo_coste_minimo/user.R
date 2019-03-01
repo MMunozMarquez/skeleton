@@ -69,8 +69,11 @@ information.text <- function(language = 'en') {
 }
 
 ### Examples data set
-examples.files <- function() {
-  c('ejemplo1.csv', 'ejemplo2.csv')
+examples.files <- function(language = 'en') {
+  switch(language,
+         es= c('ejemplo1.csv', 'ejemplo2.csv'),
+         c('example1.csv', 'example2.csv')
+  )
 }
 
 ### Data panel
