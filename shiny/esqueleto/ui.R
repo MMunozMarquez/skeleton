@@ -40,9 +40,8 @@ shinyUI(pageWithSidebar(
     ## Muestra los resultados
     mainPanel(
         tabsetPanel(
-            navbarMenu(information.title(language = Language),
-                     information.text(language = Language),
-                     navbarMenu("a", tabPanel("AA"), tabPanel("AB"))
+            tabPanel(information.title(language = Language),
+                     information.text(language = Language)
                      ),
             tabPanel(data.title(language = Language),
                      tableOutput('Data')
