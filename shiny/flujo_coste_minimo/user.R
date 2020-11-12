@@ -25,8 +25,8 @@ main.title <- function(language = 'en') {
 ### Menu panel
 other_url <- function(language = 'en') {
   switch (language,
-    es = '../min_flow_cost',
-    '../flujo_coste_minimo'
+    es = '../min_flow_cost/',
+    '../flujo_coste_minimo/'
   )
 }
 other_language <- function(language = 'en') {
