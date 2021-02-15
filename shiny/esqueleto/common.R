@@ -1,4 +1,3 @@
-# Esqueleto de aplicación con creación, edición, carga y descarga de un conjunto de datos (data.frame)
 # Autor: Manuel Muñoz Márquez (manuel.munoz@uca.es)
 # Licencia: GNU-GPL >= 3
 # Proyecto: Proyecto R-UCA (http://knuth.uca.es/R)
@@ -30,14 +29,14 @@ actions.en <- c(add_column = 'Add column', add_row = 'Add row', drop_column = 'D
 text.es <- c(character = 'Carácter', column = 'Columna',
              decimal = 'Punto decimal', download_data = 'Descargar datos',
              example = 'Ejemplo', file = 'Fichero', go = 'Hacer', factor = 'Factor', main_menu = 'Menú principal de ejemplos', name = 'Nombre',
-             numeric = 'Numérico', other_language = 'Engish version', other_url = '../skeleton/', row = 'Fila',
+             numeric = 'Numérico', other_language = 'Engish version', other_url = '../PLRCR/', row = 'Fila',
              space = '<Espacio>', separator = "Separador",
              type = 'Tipo',
              value ='Valor')
 text.en <- c(character = 'Character', column = 'Column',
              decimal = 'Decimal point', download_data = 'Download data',
              example = 'Example', file = 'File', go = 'Go', factor = 'Factor', main_menu = 'Main examples menu', name = 'Name',
-             numeric = 'Numeric', other_language = 'Versión española', other_url = '../esqueleto/', row = 'Row',
+             numeric = 'Numeric', other_language = 'Versión española', other_url = '../PLRCR/', row = 'Row',
              space = '<Space>', separator = 'Separator',
              type = 'Type',
              value = 'Value')
