@@ -12,6 +12,10 @@ source('common.R')
 ## Load user function
 source('user.R')
 
+## Load libraries
+require('readODS')
+require('xlsx')
+
 ## Define la lógica para el cálculo de los resultados
 ## Los datos de entrada se reciben en input
 ## Los resultados se guardan en output
@@ -97,14 +101,22 @@ shinyServer(function(input, output) {
         results(data)
     })
 
-    ## Download
+    ## Download data
     output$downloadData <- downloadHandler(
         filename = function() {
-            paste('data-', Sys.Date(), '.csv', sep='')
+            paste('data-', Sys.Date(), isolate(input$file.type), sep='')
         },
         content = function(file) {
-            write.csv(data, file = file, row.names = FALSE)
+            filetype <- isolate(input$file.type)
+            if (filetype == '.csv') {
+                write.csv(data, file = file, row.names = FALSE)
+            } else if (filetype == '.ods') {
+                write_ods(data, path = file, row_names = FALSE)
+            } else if (filetype == '.xls') {
+                write.xlsx(data, file = file, row.names = FALSE)
+            }
         }
     )
+    
     
 })
