@@ -93,14 +93,19 @@ results.title <- function(language = 'en') {
          'Results'
   )
 }
-# Function that computes the results
+
+## Function that computes the results
+## Must return null if there are not enough data
 results <- function(data) {
   # Compute the number of nodes
   n <- max(sum(!is.na(data$nombre)), max(data$origen, na.rm = TRUE), max(data$destino, na.rm = TRUE))
   # Compute the number of arc
   m <- sum(!is.na(data$origen) & !is.na(data$destino))
   # Return if no enough data available
-  if (n == 0) return(invisible(NULL))
+    if (n == 0 || m == 0) return(invisible(NULL))
+    ## Handle NA in coste and capacidad
+    data$capacidad[is.na(data$capacidad) | is.na(data$coste)] <- 0
+    data$coste[is.na(data$coste)] <- 0
   # Compute the objective function coefficients
   cfo <- matrix(0, ncol = n, nrow = n)
   for (i in 1:nrow(data)) {
@@ -145,6 +150,7 @@ results <- function(data) {
     sol <- sol$solution
     sol[sol == 0] <- NA
     sol <- t(matrix(sol, ncol = n))
+    ###################nombres <- as.character(data$nombre[1:n])
     nombres <- data$nombre[1:n]
     nombres[is.na(nombres)] <- paste0('Nodo_', which(is.na(nombres)))
     colnames(sol) <- nombres
@@ -155,62 +161,67 @@ results <- function(data) {
   invisible(sol)
 }
 
-### Plot panel
-# Title of plog tab
+####
+## Plot panel
+####
+## Title of plot tab
 graphic.title <- function(language = 'en') {
-  switch(language,
-         es = 'Gráfico',
-         'Graphic'
-  )
+    switch(language,
+           es = 'Gráfico',
+           'Graphic'
+           )
 }
-# Function that plots the results
-# This function must call results if it need it
+
+## Function that plots the results
+## This function must call results
 graphic.plot <- function(data) {
-    # Compute the number of nodes
-    n <- max(sum(!is.na(data$nombre)), max(data$origen, na.rm = TRUE), max(data$destino, na.rm = TRUE))
-    if (n > 0) {
-        # Solve
-        sol <- results(data)
-        if (is.null(sol)) {
-            plot.new()
-        } else {
-            # Save solution into data
-            data$vcolor <- 'white'
-            data$vshape <- 'circle'
-            data$color <- 'black'
-            data$x <- 0
-            for (i in 1:nrow(data)) {
-                if (!is.na(sol[data$origen[i], data$destino[i]])) {
-                    data$x[i] <- sol[data$origen[i], data$destino[i]]
-                    data$color[i] <- ifelse(round(data$x[i], 0) == data$capacidad[i], 'red', 'green')
-                    }
-                if (!is.na(data$oferta[i])) {
-                    data$vcolor[i] <- 'yellow'
-                    data$vshape[i] <- 'square'
-                    }
-                if (!is.na(data$demanda[i])) {
-                    data$vcolor[i] <- 'orange'
-                    data$vshape[i] <- 'square'
-                    }
-            }
-            print(data)
-            # Build igraph
-            n <- nrow(sol)
-            g <- graph_from_edgelist(cbind(data$origen, data$destino))
-            # Set up node names
-            nombres <- data$nombre[1:n]
-            nombres[is.na(nombres)] <- paste0('Nodo_', which(is.na(nombres)))
-            #g <- set_vertex_attr(graph = g, name = 'label', value = paste0(nombres, '\n(', data$oferta[1:n], '/', data$demanda[1:n], ')'))
-            g <- set_vertex_attr(graph = g, name = 'label', value = nombres)
-            g <- set_vertex_attr(graph = g, name = 'color', value = data$vcolor[1:n])
-            g <- set_vertex_attr(graph = g, name = 'shape', value = data$vshape[1:n])
-            # Show solution in arcs using color code
-            g <- set_edge_attr(graph = g, name = 'label', value = paste(round(data$x, 0), '/', data$capacidad))           
-            g <- set_edge_attr(graph = g, name = 'color', value = data$color)
-            if (Sys.getenv('SHINY_PORT') == "") tkplot(g)
-            plot(g)
-        }
-    } else {
+    ## Solve
+    sol <- results(data)
+    if (is.null(sol)) {
         plot.new()
+    } else {
+        ## Save solution into data
+        ## Set up default colors and shape
+        data$vcolor <- 'white'
+        data$vshape <- 'circle'
+        data$color <- 'black'
+        ## Set up default values for flow quantities on edges
+        data$x <- 0
+        ## Insert the current solution into x and set up colors and shape
+        for (i in 1:nrow(data)) {
+            if (!is.na(sol[data$origen[i], data$destino[i]])) {
+                data$x[i] <- sol[data$origen[i], data$destino[i]]
+                data$color[i] <- ifelse(round(data$x[i], 0) == data$capacidad[i], 'red', 'green')
+            }
+            if (!is.na(data$oferta[i])) {
+                data$vcolor[i] <- 'yellow'
+                data$vshape[i] <- 'square'
+            }
+            if (!is.na(data$demanda[i])) {
+                data$vcolor[i] <- 'orange'
+                data$vshape[i] <- 'square'
+            }
+        }
+        ## Print data on console
+        print(data)
+        ## Build igraph
+        n <- nrow(sol)
+        edges <- cbind(data$origen, data$destino)
+        edges <- na.omit(edges)
+        g <- graph_from_edgelist(edges)
+        ## Set up node names
+        nombres <- data$nombre[1:n]
+        nombres[is.na(nombres)] <- paste0('Nodo_', which(is.na(nombres)))
+        ## g <- set_vertex_attr(graph = g, name = 'label', value = paste0(nombres, '\n(', data$oferta[1:n], '/', data$demanda[1:n], ')'))
+        g <- set_vertex_attr(graph = g, name = 'label', value = nombres)
+        g <- set_vertex_attr(graph = g, name = 'color', value = data$vcolor[1:n])
+        g <- set_vertex_attr(graph = g, name = 'shape', value = data$vshape[1:n])
+        ## Set up edges colors
+        g <- set_edge_attr(graph = g, name = 'label', value = paste(round(data$x, 0), '/', data$capacidad))           
+        g <- set_edge_attr(graph = g, name = 'color', value = data$color)
+        ## If the execution is interactive plot using tkplot
+        if (Sys.getenv('SHINY_PORT') == "") tkplot(g)
+        ## Plot solution
+        plot(g)
     }
 }
