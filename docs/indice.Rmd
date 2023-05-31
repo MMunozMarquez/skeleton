@@ -1,0 +1,16 @@
+---
+title: "Proyecto Applicación Esqueleto"
+output:
+  html_document:
+    css: "skeleton.css"
+    includes:
+      after_body: menu_es.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<p>Esta aplicación, interactiva y en línea, permite crear, editar, cargar y descargar ficheros csv de datos. Ha sido desarrollada para servir como punto de partida para el desarrollo de otras aplicaciones.</p>
+
+<p>Desarrollada usando shiny by <a href="mailto:manuel.munoz@uca.es">M. Muñoz-Márquez</a> bajo licencia GNU-GPL como parte del <a href="http://knuth.uca.es/R">Proyecto R-UCA</a>.</p>

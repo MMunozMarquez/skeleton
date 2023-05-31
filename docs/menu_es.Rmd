@@ -1,0 +1,15 @@
+---
+title: "skeleton project menu"
+output:
+  html_fragment
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<ul class="navbar">
+<li><a href="indice.html">Inicio</a></li>
+<li><a href="https://knuth.uca.es/shiny/esqueleto/" target=_blank>Demostración</a></li>
+<li><a href="index.html"><img src="img/Icons-flag-uk.png" alt="English flag"></a></li>
+
