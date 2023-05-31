@@ -13,4 +13,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 <p>This application allows create, edit, load and download a csv data file. It has been developed as starting point for new applications.</p>
 
-<p>Developed using shiny by <a href="mailto:manuel.munoz@uca.es">M. Muñoz-Márquez</a> under GNU-GPL licence inside <a href="http://knuth.uca.es/R">R-UCA Project</a>.</p>
+<p>Developed using shiny by <a href="mailto:manuel.munoz(at)uca.es">M. Muñoz-Márquez</a> under GNU-GPL licence inside <a href="http://knuth.uca.es/R/">R-UCA Project</a>.</p>
+
+<p>Source code available at <a href="https://github.com/MMunozMarquez/skeleton/">GitHub</a>.
