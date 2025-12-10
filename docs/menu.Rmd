@@ -10,6 +10,6 @@ knitr::opts_chunk$set(echo = FALSE)
 
 <ul class="navbar">
 <li><a href="index.html">Home</a></li>
-<li><a href="https://knuth.uca.es/shiny/skeleton/"  target=_blank>Demo</a></li>
+<li><a href="https://knuth.uca.es/shiny/applications/skeleton/"  target=_blank>Demo</a></li>
 <li><a href="indice.html"><img src="img/Icons-flag-es.png" alt="Bandera España"></a></li>
 
